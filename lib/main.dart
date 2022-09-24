@@ -3,8 +3,19 @@ import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:window_manager/window_manager.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  await windowManager.setAlignment(Alignment.topRight);
+  WindowOptions windowOptions = WindowOptions(
+    alwaysOnTop: true,
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
   runApp(const MyApp());
 }
 
@@ -24,6 +35,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
