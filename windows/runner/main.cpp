@@ -26,8 +26,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
 
   FlutterWindow window(project);
   Win32Window::Point origin(10, 10);
-  Win32Window::Size size(500, 650);
-  if (!window.CreateAndShow(L"excel_v2", origin, size)) {
+  Win32Window::Size size(400, 400);
+  if (!window.CreateAndShow(L"CPT Finder", origin, size)) {
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);

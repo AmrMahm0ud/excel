@@ -23,11 +23,12 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Excel',
+      title: 'CPT Finder',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -35,7 +36,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -54,50 +54,74 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Scrollbar(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TextButton(
-                  onPressed: () async {
-                    await uploadExcelSheet();
-                  },
-                  child: Text(excelPath!)),
-              const SizedBox(height: 20),
-              TextFormField(onChanged: (text) {
-                text.toLowerCase();
-                listOfOutPutForItems = [];
-                listOfOutPutForValues = [];
-                int indexOfElement = -1;
-                if (text != "") {
-                  for (var element in items) {
-                    if (element.toLowerCase().contains(text.toLowerCase())) {
-                      indexOfElement = items.indexOf(element);
-                      listOfOutPutForValues.add(values[indexOfElement]);
-                      listOfOutPutForItems.add(element);
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextButton(
+                    onPressed: () async {
+                      await uploadExcelSheet();
+                    },
+                    child: Text(excelPath!)),
+                const SizedBox(height: 20),
+                TextFormField(onChanged: (text) {
+                  text.toLowerCase();
+                  listOfOutPutForItems = [];
+                  listOfOutPutForValues = [];
+                  int indexOfElement = -1;
+                  if (text != "") {
+                    for (var element in items) {
+                      if (element.toLowerCase().contains(text.toLowerCase())) {
+                        indexOfElement = items.indexOf(element);
+                        listOfOutPutForValues.add(values[indexOfElement]);
+                        listOfOutPutForItems.add(element);
+                      }
                     }
+                  } else {
+                    listOfOutPutForItems.clear();
+                    listOfOutPutForValues.clear();
                   }
-                } else {
-                  listOfOutPutForItems.clear();
-                  listOfOutPutForValues.clear();
-                }
-                setState(() {});
-              }),
-              listOfOutPutForValues.isNotEmpty
-                  ? Column(
-                      children: listOfOutPutForValues.map((e) {
-                        return Row(
-                          children: [
-                            SizedBox(child: SelectableText(itemText(e)!)),
-                            const SizedBox(width: 20),
-                            SizedBox(child: SelectableText(e)),
-                          ],
-                        );
-                      }).toList(),
-                    )
-                  : const SizedBox(),
-            ],
+                  setState(() {});
+                }),
+                listOfOutPutForValues.isNotEmpty
+                    ? Column(
+                        children: listOfOutPutForValues.map((e) {
+                          return SizedBox(
+                            child: Column(
+                              children: [
+                                IntrinsicHeight(
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 250,
+                                        child: SelectableText(itemText(e)!),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      Container(
+                                        color: Colors.grey,
+                                        width: 1.5,
+                                      ),
+                                      const SizedBox(width: 15),
+                                      SizedBox(child: SelectableText(e)),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                    height: 1.5,
+                                    color: Colors.grey,
+                                    width: double.infinity)
+                              ],
+
+
+                            ),
+                          );
+                        }).toList(),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
           ),
         ),
       ),
